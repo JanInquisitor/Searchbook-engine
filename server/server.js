@@ -16,7 +16,12 @@ const server = new ApolloServer({
     context: authMiddleware,
 });
 
-server.applyMiddleware({app});
+async function startApollo() {
+    await server.start()
+    server.applyMiddleware({app});
+}
+
+startApollo();
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/build")));
